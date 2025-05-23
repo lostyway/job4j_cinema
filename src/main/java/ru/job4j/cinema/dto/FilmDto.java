@@ -24,7 +24,7 @@ public class FilmDto {
         this.minimalAge = minimalAge;
         this.durationInMinutes = durationInMinutes;
         this.genre = genre;
-        this.filePath = "/" + filePath;
+        this.filePath = filePath;
     }
 
     public int getId() {

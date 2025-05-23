@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/navigation :: navigation"></div>
+
+<div class="container mt-4">
+    <h2 th:text="${film.name}">Название фильма</h2>
+    <img th:src="@{${film.filePath}}" alt="Постер фильма" style="max-width: 400px; height: auto; object-fit: cover;"/>
+    <p th:text="${film.description}">Описание фильма</p>
+    <ul>
+        <li>Жанр: <span th:text="${film.genre}"></span></li>
+        <li>Год: <span th:text="${film.year}"></span></li>
+        <li>Возраст: <span th:text="${film.minimalAge}"></span>+</li>
+        <li>Длительность: <span th:text="${film.durationInMinutes}"></span> мин.</li>
+    </ul>
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

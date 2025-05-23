@@ -10,4 +10,9 @@
     <include file="scripts/003_ddl_create_table_films.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_table_halls.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_create_table_film_sessions.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_ddm_insert_into_files.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddm_insert_into_genres.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddm_insert_into_films.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/009_ddm_insert_into_halls.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/010_ddm_insert_into_film_session.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

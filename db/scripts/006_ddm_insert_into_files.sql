@@ -1,0 +1,16 @@
+insert into files (name, path) values
+('1', 'files/1.jpg'),
+('2', 'files/2.jpg'),
+('3', 'files/3.jpg'),
+('4', 'files/4.jpg'),
+('5', 'files/5.jpg'),
+('6', 'files/6.jpg'),
+('7', 'files/7.jpg'),
+('8', 'files/8.jpg'),
+('9', 'files/9.jpg'),
+('10', 'files/10.jpg'),
+('11', 'files/11.jpg'),
+('12', 'files/12.jpg'),
+('13', 'files/13.jpg'),
+('14', 'files/14.jpg'),
+('15', 'files/15.jpg');

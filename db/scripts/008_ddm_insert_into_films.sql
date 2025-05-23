@@ -1,0 +1,16 @@
+insert into films (name, description, year, genre_id, minimal_age, duration_in_minutes, file_id)
+values ('The Silent Dawn', 'A gripping tale of survival in a post-apocalyptic world.', 2022, 1, 16, 120, 1),
+       ('Laughing Matters', 'A hilarious journey of friends trying to find their way.', 2020, 2, 12, 90, 2),
+       ('Shadows of the Past', 'A dramatic story of love, loss, and redemption.', 2021, 3, 18, 110, 3),
+       ('Nightmare Alley', 'A chilling horror that will keep you on the edge of your seat.', 2023, 3, 18, 110, 4),
+       ('Eternal Horizon', 'An epic sci-fi adventure beyond the stars.', 2024, 3, 18, 240, 5),
+       ('Crimson Tide', 'An intense action thriller with unexpected twists.', 2022, 3, 18, 120, 6),
+       ('Broken Chains', 'A heartfelt drama about breaking free from the past.', 2020, 3, 18, 110, 7),
+       ('Whispering Woods', 'A mysterious horror set deep in the forest.', 2023, 4, 18, 110, 8),
+       ('The Last Ritual', 'Dark secrets unravel in this supernatural thriller.', 2021, 4, 18, 110, 9),
+       ('Silent Screams', 'A terrifying tale of survival against unknown forces.', 2022, 4, 18, 90, 10),
+       ('Cosmic Voyage', 'A thrilling journey through space and time.', 2024, 5, 12, 100, 11),
+       ('Neon Dreams', 'A futuristic drama exploring human emotions in a digital world.', 2023, 5, 12, 186, 12),
+       ('Galactic Frontier', 'Action-packed sci-fi battles on distant planets.', 2022, 5, 12, 210, 13),
+       ('Starlight Legacy', 'An epic saga of heroes and legends across the galaxy.', 2024, 5, 12, 2456, 14),
+       ('Quantum Rift', 'A mind-bending thriller about alternate realities.', 2023, 5, 12, 110, 15);

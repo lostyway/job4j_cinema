@@ -17,7 +17,11 @@ public class FilmService implements IFilmService {
 
     @Override
     public List<FilmDto> getAllFilms() {
-        return List.of();
+        List<FilmDto> result = filmRepository.getAllFilms();
+        if (result.isEmpty()) {
+            throw new RuntimeException("No films found");
+        }
+        return result;
     }
 
     @Override

@@ -9,12 +9,10 @@ import java.util.Optional;
 
 @Service
 public class FilmService implements IFilmService {
-    private FilmDto filmDto;
-    private FilmRepository filmRepository;
+    private final FilmRepository filmRepository;
 
-    public FilmService(FilmRepository filmRepository, FilmDto filmDto) {
+    public FilmService(FilmRepository filmRepository) {
         this.filmRepository = filmRepository;
-        this.filmDto = filmDto;
     }
 
     @Override

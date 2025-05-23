@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/cinema/schedule")
-public class ScheduleController {
+@RequestMapping("/cinema")
+public class FilmController {
 
-    @GetMapping("/movies")
-    public String getSchedule() {
-        return "cinema/schedule/movies";
+    @GetMapping("/films")
+    public String films() {
+        return "cinema/films";
     }
 }

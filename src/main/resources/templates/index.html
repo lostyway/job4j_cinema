@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/header :: header"></head>
 <body>
-
+<div th:replace="fragments/navigation :: navigation"></div>
+<h3 class="text-center">
+    Проект job4j_cinema, выполняемый в рамках курса
+</h3>
+<div class="container text-center mt-4">
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

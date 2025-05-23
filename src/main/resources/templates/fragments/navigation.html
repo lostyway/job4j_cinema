@@ -1,10 +1,22 @@
 <nav th:fragment="navigation" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <meta charset="UTF-8">
 <div class="container">
-    <a class="navbar-brand" href="/">Lost Job</a>
+    <a class="navbar-brand" href="/">
+        <img src="/photo/mainPage.jpg" width="60" height="auto"/>
+    </a>
     <div class="collapse navbar-collapse">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/">Главная</a>
+            <a class="nav-item nav-link active" th:href="@{/schedule}">Расписание сеансов</a>
+            <a class="nav-item nav-link active" th:href="@{/users/tickets}">Мои билеты</a>
         </div>
     </div>
+        <div class="d-flex" th:if="${user == null}">
+            <a class="nav-link text-secondary me-3" th:href="@{/users/register}">Регистрация</a>
+            <a class="nav-link text-secondary" th:href="@{/users/login}">Войти</a>
+        </div>
+        <div class="d-flex" th:if="${user != null}">
+            <a class="nav-link text-secondary me-3" href="#" th:text="${user.name}"></a>
+            <a class="nav-link text-secondary" th:href="@{/users/logout}">Выйти</a>
+        </div>
 </div>
 </nav>

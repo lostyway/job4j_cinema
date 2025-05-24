@@ -4,17 +4,38 @@
 <body>
 <div th:replace="fragments/navigation :: navigation"></div>
 
-<div class="container mt-4">
+<div style="
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+  ">
     <h2 th:text="${film.name}">Название фильма</h2>
-    <img th:src="@{${film.filePath}}" alt="Постер фильма" style="max-width: 400px; height: auto; object-fit: cover;"/>
+    <img th:src="@{${film.filePath}}" alt="Постер фильма" style="max-width: 1400px; height: auto; object-fit: cover;"/>
     <p th:text="${film.description}">Описание фильма</p>
     <ul>
         <li>Жанр: <span th:text="${film.genre}"></span></li>
         <li>Год: <span th:text="${film.year}"></span></li>
         <li>Возраст: <span th:text="${film.minimalAge}"></span>+</li>
-        <li>Длительность: <span th:text="${film.durationInMinutes}"></span> мин.</li>
+        <li>Длительность: <span th:text="${film.durationInMinutes}"></span>мин.</li>
     </ul>
+
+    <form th:action="@{/cinema/sessions}" method="get">
+        <label for="sessionId">Выберите сеанс:</label>
+        <select id="sessionId" name="sessionId" required>
+            <option value="" disabled selected>Выберите сеанс</option>
+            <option th:each="sess : ${mySession}"
+                    th:value="${sess.id}"
+                    th:text="${#temporals.format(sess.startTime, 'dd.MM.yyyy HH:mm')} + ' / ' + ${sess.hallName} + ' / ' + ${sess.price} + '₽'">
+            </option>
+        </select>
+        <button type="submit">Перейти к выбору места</button>
+    </form>
+
 </div>
+
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

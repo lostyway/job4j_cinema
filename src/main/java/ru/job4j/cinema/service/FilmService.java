@@ -25,11 +25,11 @@ public class FilmService implements IFilmService {
     }
 
     @Override
-    public Optional<FilmDto> getFilmById(int id) {
+    public FilmDto getFilmById(int id) {
         Optional<FilmDto> result = filmRepository.getFilmById(id);
         if (result.isEmpty()) {
             throw new RuntimeException("No film found");
         }
-        return result;
+        return result.get();
     }
 }

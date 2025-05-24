@@ -1,12 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Ошибка 404</title>
+    <meta charset="UTF-8"/>
+    <title>Ошибка 404 — Страница не найдена</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 450px;
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #d9534f; /* красный оттенок */
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        a {
+            color: #337ab7;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div>
-  <label>Тут будет ошибка 404</label>
+<div class="container">
+    <h1>Ошибка 404</h1>
+    <p th:text="${error}">Страница не найдена</p>
+    <a th:href="@{/}">← Вернуться на главную</a>
 </div>
 </body>
 </html>

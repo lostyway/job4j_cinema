@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.job4j.cinema.dto.TicketDto;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.service.TicketService;
@@ -21,7 +22,7 @@ public class TicketController {
     public String buyTicket(@RequestParam int sessionId,
                             @RequestParam int rowNumber,
                             @RequestParam int placeNumber,
-                            Model model, HttpSession session) {
+                            RedirectAttributes redirectAttributes, HttpSession session, Model model) {
         try {
             Integer userId = (Integer) session.getAttribute("userId");
             Ticket ticket = new Ticket();
@@ -31,7 +32,7 @@ public class TicketController {
             ticket.setPlaceNumber(placeNumber);
 
             TicketDto ticketToBuy = ticketService.buyTicket(ticket);
-            model.addAttribute("ticket", ticketToBuy);
+            redirectAttributes.addAttribute("ticket", ticketToBuy);
             return "redirect:/users/home";
         } catch (RuntimeException e) {
             model.addAttribute("error", "Билет уже куплен");

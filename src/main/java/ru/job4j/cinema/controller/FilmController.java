@@ -67,6 +67,7 @@ public class FilmController {
         sessionDto.fillRowsAndCount();
 
         model.addAttribute("mySession", sessionDto);
+        model.addAttribute("sessionId", sessionId);
         return "cinema/selectSession";
     }
 }

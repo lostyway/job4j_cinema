@@ -36,7 +36,7 @@ public class TicketRepository implements ITickerRepository {
     @Override
     public Optional<TicketDto> getTicketDtoById(int id) {
         var sql = """
-                select ticket.session_id as sessionId,
+                select ticket.id as id,
                        ticket.row_number as rowNumber,
                        ticket.place_number as placeNumber,
                        us.email as email,
@@ -53,10 +53,9 @@ public class TicketRepository implements ITickerRepository {
                 where ticket.id = :id
                 """;
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery(sql)
-                    .addParameter("id", id);
-            var result = query.executeAndFetchFirst(TicketDto.class);
-            return Optional.ofNullable(result);
+            return Optional.ofNullable(connection.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(TicketDto.class));
         }
     }
 }

@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header"></head>
 <body>
 <div th:replace="fragments/navigation :: navigation"></div>
-<h3 class="text-center">
-    Купленный билет
-</h3>
-<div class="container text-center mt-4">
+<h1 class="text-center">Ваш билет:</h1>
+
+<div class="container text-center mt-4" th:if="${ticket != null}">
+    <table>
+        <tr><th>ID сессии: </th><td th:text="${ticket.id}">1</td></tr>
+        <tr><th>Фильм: </th><td th:text="${ticket.filmName}">Название фильма</td></tr>
+        <tr><th>Зал: </th><td th:text="${ticket.hallName}">Зал</td></tr>
+        <tr><th>Ряд: </th><td th:text="${ticket.rowNumber}">1</td></tr>
+        <tr><th>Место: </th><td th:text="${ticket.placeNumber}">5</td></tr>
+        <tr><th>Время начала: </th><td th:text="${#temporals.format(ticket.startTime, 'dd.MM.yyyy HH:mm')}">01.01.2024 19:00</td></tr>
+        <tr><th>Время окончания: </th><td th:text="${#temporals.format(ticket.endTime, 'dd.MM.yyyy HH:mm')}">01.01.2024 21:00</td></tr>
+        <tr><th>Email пользователя: </th><td th:text="${ticket.email}">user@example.com</td></tr>
+        <tr><th>Цена: </th><td th:text="${ticket.price + ' ₽'}">350 ₽</td></tr>
+    </table>
+</div>
+
+<div th:if="${ticket == null}">
+    <p> Данные билета устарели. Вы можете уточнить статус билета у сотрудника кинотеатра или в поддержке.</p>
 </div>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>

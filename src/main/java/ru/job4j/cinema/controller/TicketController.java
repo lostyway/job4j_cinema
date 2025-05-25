@@ -37,7 +37,7 @@ public class TicketController {
             redirectAttributes.addFlashAttribute("ticket", ticketToBuy);
             return "redirect:/ticket";
         } catch (RuntimeException e) {
-            model.addAttribute("error", "Билет уже куплен");
+            model.addAttribute("error", "Билет уже был куплен или вы не были зарегистрированы для покупки");
             return "errors/404";
         }
     }

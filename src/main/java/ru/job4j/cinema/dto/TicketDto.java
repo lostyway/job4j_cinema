@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 public class TicketDto {
     private int id;
-    private int sessionId;
     private int rowNumber;
     private int placeNumber;
     private String email;
@@ -22,9 +21,8 @@ public class TicketDto {
     public TicketDto() {
     }
 
-    public TicketDto(int id, int sessionId, int rowNumber, int placeNumber, String email, LocalDateTime startTime, LocalDateTime endTime, String filmName, String hallName, int price) {
+    public TicketDto(int id, int rowNumber, int placeNumber, String email, LocalDateTime startTime, LocalDateTime endTime, String filmName, String hallName, int price) {
         this.id = id;
-        this.sessionId = sessionId;
         this.rowNumber = rowNumber;
         this.placeNumber = placeNumber;
         this.email = email;

@@ -1,7 +1,12 @@
 package ru.job4j.cinema.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Map;
 
+@Getter
+@Setter
 public class User {
     public static final Map<String, String> MAP_BASE = Map.of(
             "id", "id",
@@ -23,21 +28,5 @@ public class User {
     }
 
     public User() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }

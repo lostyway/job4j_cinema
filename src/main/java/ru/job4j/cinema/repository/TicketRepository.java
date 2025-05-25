@@ -39,14 +39,14 @@ public class TicketRepository implements ITickerRepository {
                 select ticket.session_id as sessionId,
                        ticket.row_number as rowNumber,
                        ticket.place_number as placeNumber,
-                       "user".email as email,
+                       us.email as email,
                        session.start_time as startTime,
                        session.end_time as endTime,
                        film.name as filmName,
                        hall.name as hallName,
                        session.price as price
                 from tickets ticket
-                join users "user" on "user".id = ticket.user_id
+                join users us on us.id = ticket.user_id
                 join film_sessions session on session.id = ticket.session_id
                 join films film on session.film_id = film.id
                 join halls hall on session.halls_id = hall.id

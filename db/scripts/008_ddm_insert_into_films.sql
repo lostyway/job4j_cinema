@@ -12,5 +12,5 @@ values ('The Silent Dawn', 'A gripping tale of survival in a post-apocalyptic wo
        ('Cosmic Voyage', 'A thrilling journey through space and time.', 2024, 5, 12, 100, 11),
        ('Neon Dreams', 'A futuristic drama exploring human emotions in a digital world.', 2023, 5, 12, 186, 12),
        ('Galactic Frontier', 'Action-packed sci-fi battles on distant planets.', 2022, 5, 12, 210, 13),
-       ('Starlight Legacy', 'An epic saga of heroes and legends across the galaxy.', 2024, 5, 12, 2456, 14),
+       ('Starlight Legacy', 'An epic saga of heroes and legends across the galaxy.', 2024, 5, 12, 240, 14),
        ('Quantum Rift', 'A mind-bending thriller about alternate realities.', 2023, 5, 12, 110, 15);

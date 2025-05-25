@@ -3,6 +3,7 @@ package ru.job4j.cinema.controller;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,19 +25,25 @@ public class TicketController {
                             @RequestParam int placeNumber,
                             RedirectAttributes redirectAttributes, HttpSession session, Model model) {
         try {
-            Integer userId = (Integer) session.getAttribute("userId");
+            //TODO Вернуть как было после регистрации пользователя
+            //Integer userId = (Integer) session.getAttribute("userId");
             Ticket ticket = new Ticket();
-            ticket.setUserId(userId);
+            ticket.setUserId(1);
             ticket.setSessionId(sessionId);
             ticket.setRowNumber(rowNumber);
             ticket.setPlaceNumber(placeNumber);
 
             TicketDto ticketToBuy = ticketService.buyTicket(ticket);
-            redirectAttributes.addAttribute("ticket", ticketToBuy);
-            return "redirect:/users/home";
+            redirectAttributes.addFlashAttribute("ticket", ticketToBuy);
+            return "redirect:/ticket";
         } catch (RuntimeException e) {
             model.addAttribute("error", "Билет уже куплен");
             return "errors/404";
         }
+    }
+
+    @GetMapping("/ticket")
+    public String getTicket() {
+        return "ticket";
     }
 }

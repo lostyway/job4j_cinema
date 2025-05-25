@@ -38,6 +38,7 @@ public class LoginRegisterController {
         try {
             User userToLogin = userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword());
             request.getSession().setAttribute("user", userToLogin);
+            request.getSession().setAttribute("userId", userToLogin.getId());
             return "redirect:/index";
         } catch (RuntimeException e) {
             model.addAttribute("error", "Почта или пароль введены неверно");

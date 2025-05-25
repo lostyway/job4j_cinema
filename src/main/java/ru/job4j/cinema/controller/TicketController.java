@@ -25,10 +25,9 @@ public class TicketController {
                             @RequestParam int placeNumber,
                             RedirectAttributes redirectAttributes, HttpSession session, Model model) {
         try {
-            //TODO Вернуть как было после регистрации пользователя
-            //Integer userId = (Integer) session.getAttribute("userId");
+            Integer userId = (Integer) session.getAttribute("userId");
             Ticket ticket = new Ticket();
-            ticket.setUserId(1);
+            ticket.setUserId(userId);
             ticket.setSessionId(sessionId);
             ticket.setRowNumber(rowNumber);
             ticket.setPlaceNumber(placeNumber);

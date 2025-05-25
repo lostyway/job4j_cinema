@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Выберите время сеанса</title>
+</head>
+<body>
+<h2>Выберите время сеанса</h2>
+<div>
+    <ul>
+        <li th:each="time : ${sessionTimes}">
+            <a th:href="@{/sessions/films(time=${time})}"
+               th:text="${time}">Нет времени</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

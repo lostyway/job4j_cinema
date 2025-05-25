@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.cinema.dto.SessionDto;
 import ru.job4j.cinema.repository.SessionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,5 +30,22 @@ public class SessionService implements ISessionService {
             throw new RuntimeException("There is no session with id " + sessionId);
         }
         return session.get();
+    }
+
+    @Override
+    public List<String> getTimes() {
+        List<String> times = sessionRepository.getSessionByTimes();
+        if (times.isEmpty()) {
+            throw new RuntimeException("There is no session with times ");
+        }
+        return times;
+    }
+
+    private List<SessionDto> getSessionsByTime(String time) {
+        List<SessionDto> sessionDto = sessionRepository.getSessionsByCurrentTime(time);
+        if (sessionDto.isEmpty()) {
+            throw new RuntimeException("There is no session with current time " + time);
+        }
+        return sessionDto;
     }
 }

@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface ISessionService {
     List<SessionDto> getSessionsByFilmId(int filmId);
+
+    SessionDto getSessionById(int sessionId);
+
+    List<String> getTimes();
 }

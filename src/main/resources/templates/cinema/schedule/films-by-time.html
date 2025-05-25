@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Фильмы на выбранное время</title>
+</head>
+<body>
+<h2 th:text="'Фильмы на время: ' + ${time}"></h2>
+<div th:if="${#lists.isEmpty(films)}">
+    <p>Фильмов в это время нет.</p>
+</div>
+<div th:unless="${#lists.isEmpty(films)}">
+    <ul>
+        <li th:each="film : ${films}">
+            <span th:text="${film.name}"></span> -
+            <a th:href="@{/films/{filmId}/chooseSeats(filmId=${film.id})}">Выбрать места</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

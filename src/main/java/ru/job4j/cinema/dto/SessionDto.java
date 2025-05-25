@@ -22,6 +22,7 @@ public class SessionDto {
     private int placeCount;
     private List<Integer> rowsList;
     private List<Integer> placeList;
+    private List<FilmDto> filmList;
 
     public SessionDto() {
     }

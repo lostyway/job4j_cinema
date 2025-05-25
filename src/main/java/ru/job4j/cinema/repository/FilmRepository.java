@@ -51,21 +51,17 @@ public class FilmRepository implements IFilmRepository {
         }
     }
 
-    public List<FilmDto> findFilmsByStartTime(LocalDateTime startTime) {
-        var sql = """
-                 SELECT f.id, f.name, f.description, f.year,
-                                                       f.minimal_age AS minimalAge,
-                                                       f.duration_in_minutes AS durationInMinutes,
-                                                       g.name AS genre,
-                                                       files.path AS filePath
-                 FROM film_sessions fs
-                 JOIN films f ON fs.film_id = f.id
-                 JOIN genres g ON g.id = f.genre_id
-                 JOIN files ON files.id = f.file_id
-                 WHERE fs.start_time = :startTime
+    public List<FilmDto> getAllFilmsInNextWeek() {
+        String sql = """
+                SELECT f.id, f.name, f.description, f.year,
+                       f.minimal_age as minimalAge,
+                       f.duration_in_minutes as durationInMinutes, g.name as genre, files.path as filePath
+                FROM films f
+                JOIN genres g on g.id = f.genre_id
+                JOIN files on files.id = f.file_id
                 """;
         try (Connection con = sql2o.open()) {
-            Query query = con.createQuery(sql).addParameter("startTime", startTime);
+            Query query = con.createQuery(sql);
             return query.executeAndFetch(FilmDto.class);
         }
     }

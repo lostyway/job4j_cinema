@@ -1,18 +1,13 @@
 package ru.job4j.cinema.controller;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.dto.FilmDto;
-import ru.job4j.cinema.dto.TimeDto;
 import ru.job4j.cinema.service.FilmService;
 import ru.job4j.cinema.service.SessionService;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -28,6 +23,13 @@ public class ScheduleController {
 
     @GetMapping("/sessionTimes")
     public String sessionTimes(Model model) {
-        return "cinema/schedule/films";
+        try {
+            List<FilmDto> films = filmService.getAllFilmsInNextWeek();
+            model.addAttribute("films", films);
+            return "cinema/schedule/films";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "errors/404";
+        }
     }
 }

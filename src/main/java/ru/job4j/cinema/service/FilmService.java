@@ -33,4 +33,12 @@ public class FilmService implements IFilmService {
         }
         return result.get();
     }
+
+    public List<FilmDto> getAllFilmsInNextWeek() {
+        List<FilmDto> result = filmRepository.getAllFilmsInNextWeek();
+        if (result.isEmpty()) {
+            throw new RuntimeException("No films in next week found");
+        }
+        return result;
+    }
 }

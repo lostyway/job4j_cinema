@@ -3,14 +3,76 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Выберите время сеанса</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .time-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .time-item {
+            text-align: center;
+        }
+
+        .time-btn {
+            display: block;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .time-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Стиль для мобильных устройств */
+        @media (max-width: 600px) {
+            .time-list {
+                grid-template-columns: 1fr;
+            }
+
+            .time-btn {
+                padding: 15px;
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>Выберите время сеанса</h2>
-<div>
-    <ul>
-        <li th:each="time : ${sessionTimes}">
-            <a th:href="@{/sessions/films(time=${time})}"
-               th:text="${time}">Нет времени</a>
+<div class="container">
+    <h2>Выберите время сеанса</h2>
+    <ul class="time-list">
+        <li class="time-item" th:each="time : ${sessionTimes}">
+            <a class="time-btn"
+               th:href="@{/cinema/schedule/sessions(time=${time.urlTime})}"
+               th:text="${time.displayTime}"></a>
         </li>
     </ul>
 </div>

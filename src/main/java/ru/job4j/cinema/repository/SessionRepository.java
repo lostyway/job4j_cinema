@@ -48,27 +48,16 @@ public class SessionRepository implements ISessionRepository {
         }
     }
 
-    public List<String> getSessionByTimes() {
+    public List<LocalDateTime> getSessionStartTimesNextWeek() {
         var sql = """
-                select distinct to_char(s.start_time, 'HH24:MI') as startTime
-                from film_sessions s
-                order by startTime
-                """;
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(String.class);
-        }
-    }
-
-    public List<SessionDto> getSessionsByCurrentTime(String startTime) {
-        var sql = """
-                select s.id, s.film_id as filmId, h.name as hallName, s.start_time as startTime, s.end_time as endTime, s.price, h.row_count as rowCount, h.place_count as placeCount
-                from film_sessions s
-                join halls h on h.id = s.halls_id
-                where to_char(s.start_time, 'HH24:MI') = :startTime
+                select distinct s.start_time from film_sessions s
+                where s.start_time >= now() and s.start_time < now() + interval '7 days'
                 order by s.start_time
                 """;
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).addParameter("startTime", startTime).executeAndFetch(SessionDto.class);
+            return con.createQuery(sql).executeAndFetch(LocalDateTime.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при попытке возврата времени из БД" + e);
         }
     }
 }

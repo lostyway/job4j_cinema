@@ -2,10 +2,13 @@ package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.dto.SessionDto;
+import ru.job4j.cinema.dto.TimeDto;
 import ru.job4j.cinema.repository.SessionRepository;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionService implements ISessionService {
@@ -33,19 +36,14 @@ public class SessionService implements ISessionService {
     }
 
     @Override
-    public List<String> getTimes() {
-        List<String> times = sessionRepository.getSessionByTimes();
-        if (times.isEmpty()) {
-            throw new RuntimeException("There is no session with times ");
+    public List<TimeDto> getNextWeekSessionsTime() {
+        List<LocalDateTime> rawTimes = sessionRepository.getSessionStartTimesNextWeek();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM HH:mm");
+        if (rawTimes.isEmpty()) {
+            throw new RuntimeException("Нет доступных временных сессий на ближайшую неделю");
         }
-        return times;
-    }
-
-    private List<SessionDto> getSessionsByTime(String time) {
-        List<SessionDto> sessionDto = sessionRepository.getSessionsByCurrentTime(time);
-        if (sessionDto.isEmpty()) {
-            throw new RuntimeException("There is no session with current time " + time);
-        }
-        return sessionDto;
+        return rawTimes.stream()
+                .map(dt -> new TimeDto(dt, dt.format(formatter)))
+                .collect(Collectors.toList());
     }
 }

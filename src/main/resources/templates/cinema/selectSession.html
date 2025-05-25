@@ -18,7 +18,6 @@
     <p>Цена: <span th:text="${mySession.price}"></span>₽</p>
 
     <form th:action="@{/buyTicket}" method="post" style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
-        <!-- Передаём id сеанса скрытым полем -->
         <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
 
         <label for="rowNumber">Выберите ряд:</label>

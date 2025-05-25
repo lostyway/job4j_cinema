@@ -70,4 +70,9 @@ public class FilmController {
         model.addAttribute("sessionId", sessionId);
         return "cinema/selectSession";
     }
+
+    @GetMapping("/sessions/{time}")
+    public String filmsByTime(@PathVariable String time, Model model) {
+        return "/cinema/schedule/films-by-time";
+    }
 }

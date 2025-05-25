@@ -47,17 +47,4 @@ public class SessionRepository implements ISessionRepository {
                     .executeAndFetchFirst(SessionDto.class));
         }
     }
-
-    public List<LocalDateTime> getSessionStartTimesNextWeek() {
-        var sql = """
-                select distinct s.start_time from film_sessions s
-                where s.start_time >= now() and s.start_time < now() + interval '7 days'
-                order by s.start_time
-                """;
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(LocalDateTime.class);
-        } catch (Exception e) {
-            throw new RuntimeException("Ошибка при попытке возврата времени из БД" + e);
-        }
-    }
 }

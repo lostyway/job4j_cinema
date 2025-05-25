@@ -9,6 +9,4 @@ public interface ISessionService {
     List<SessionDto> getSessionsByFilmId(int filmId);
 
     SessionDto getSessionById(int sessionId);
-
-    List<TimeDto> getNextWeekSessionsTime();
 }

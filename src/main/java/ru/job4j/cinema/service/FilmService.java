@@ -33,12 +33,4 @@ public class FilmService implements IFilmService {
         }
         return result.get();
     }
-
-    public List<FilmDto> findFilmsByStartTime(LocalDateTime dateTime) {
-        var listOfFilms = filmRepository.findFilmsByStartTime(dateTime);
-        if (listOfFilms.isEmpty()) {
-            throw new RuntimeException("No films found");
-        }
-        return listOfFilms;
-    }
 }

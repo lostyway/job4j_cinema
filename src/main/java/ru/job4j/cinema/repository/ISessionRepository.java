@@ -10,6 +10,4 @@ public interface ISessionRepository {
     List<SessionDto> getSessionsByFilmId(int filmId);
 
     Optional<SessionDto> getSessionById(int sessionId);
-
-    List<LocalDateTime> getSessionStartTimesNextWeek();
 }

@@ -27,30 +27,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/sessionTimes")
-    public String getSchedule(Model model) {
-        try {
-            List<TimeDto> times = sessionService.getNextWeekSessionsTime();
-            model.addAttribute("sessionTimes", times);
-        } catch (Exception e) {
-            model.addAttribute("error", "Сеансы не найдены");
-            return "errors/404";
-        }
-        return "cinema/schedule/session-times";
-    }
-
-    @GetMapping("/sessions")
-    public String getSessions(
-            @RequestParam("time") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dateTime, @RequestParam("sessionId") int sessionId,
-            Model model) {
-        try {
-            List<FilmDto> films = filmService.findFilmsByStartTime(dateTime);
-            model.addAttribute("films", films);
-            model.addAttribute("time", dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
-            model.addAttribute("sessionId", sessionId);
-            return "cinema/schedule/films-by-time";
-        } catch (Exception e) {
-            model.addAttribute("error", "Ошибка при загрузке фильмов");
-            return "errors/404";
-        }
+    public String sessionTimes(Model model) {
+        return "cinema/schedule/films";
     }
 }

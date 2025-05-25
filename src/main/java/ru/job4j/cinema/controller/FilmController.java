@@ -24,7 +24,7 @@ public class FilmController {
         this.sessionService = sessionService;
     }
 
-    @GetMapping("/films")
+    @GetMapping("/list")
     public String films(Model model) {
         try {
             List<FilmDto> films = filmService.getAllFilms();
@@ -52,15 +52,6 @@ public class FilmController {
         return "cinema/one";
     }
 
-    @GetMapping("/sessions/{sessionId}")
-    public String filmsBySession(@PathVariable int sessionId, Model model) {
-        SessionDto sessionDto = sessionService.getSessionById(sessionId);
-        sessionDto.fillRowsAndCount();
-
-        model.addAttribute("session", sessionDto);
-        return "cinema/selectSession";
-    }
-
     @GetMapping("/sessions")
     public String sessionsById(@RequestParam("sessionId") int sessionId, Model model) {
         SessionDto sessionDto = sessionService.getSessionById(sessionId);
@@ -69,10 +60,5 @@ public class FilmController {
         model.addAttribute("mySession", sessionDto);
         model.addAttribute("sessionId", sessionId);
         return "cinema/selectSession";
-    }
-
-    @GetMapping("/sessions/{time}")
-    public String filmsByTime(@PathVariable String time, Model model) {
-        return "/cinema/schedule/films-by-time";
     }
 }

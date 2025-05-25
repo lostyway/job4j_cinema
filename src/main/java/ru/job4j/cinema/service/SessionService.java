@@ -1,6 +1,7 @@
 package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.cinema.dto.FilmDto;
 import ru.job4j.cinema.dto.SessionDto;
 import ru.job4j.cinema.dto.TimeDto;
 import ru.job4j.cinema.repository.SessionRepository;
@@ -33,17 +34,5 @@ public class SessionService implements ISessionService {
             throw new RuntimeException("There is no session with id " + sessionId);
         }
         return session.get();
-    }
-
-    @Override
-    public List<TimeDto> getNextWeekSessionsTime() {
-        List<LocalDateTime> rawTimes = sessionRepository.getSessionStartTimesNextWeek();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM HH:mm");
-        if (rawTimes.isEmpty()) {
-            throw new RuntimeException("Нет доступных временных сессий на ближайшую неделю");
-        }
-        return rawTimes.stream()
-                .map(dt -> new TimeDto(dt, dt.format(formatter)))
-                .collect(Collectors.toList());
     }
 }

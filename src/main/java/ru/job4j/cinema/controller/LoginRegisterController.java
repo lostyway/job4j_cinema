@@ -48,7 +48,7 @@ public class LoginRegisterController {
     @PostMapping("/register")
     public String login(@ModelAttribute User user, Model model) {
         try {
-            User userToRegister = userService.save(user);
+            userService.save(user);
             return "redirect:/users/login";
         } catch (Exception e) {
             model.addAttribute("error", String.format("Пользователь с почтой %s уже существует", user.getEmail()));

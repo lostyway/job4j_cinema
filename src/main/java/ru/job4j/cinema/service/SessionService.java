@@ -39,14 +39,16 @@ public class SessionService implements ISessionService {
     @Override
     public List<SessionDto> getSessionsByStartTime(LocalDateTime startTime) {
         List<SessionDto> sessions = sessionRepository.getSessionsByStartTime(startTime);
+
+        if (sessions.isEmpty()) {
+            throw new NotFoundException("Не было найдено сессий с временем начала: " + startTime);
+        }
+
         sessions.forEach(sess -> {
             FilmDto film = filmService.getFilmById(sess.getFilmId());
             sess.setFilmDto(film);
         });
 
-        if (sessions.isEmpty()) {
-            throw new NotFoundException("Не было найдено сессий с временем начала: " + startTime);
-        }
         return sessions;
     }
 

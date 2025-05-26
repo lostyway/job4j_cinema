@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.job4j.cinema.dto.SessionDto;
 import ru.job4j.cinema.dto.TimeDto;
 import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.service.FilmService;
@@ -20,11 +21,9 @@ import java.util.List;
 @RequestMapping("/cinema")
 public class ScheduleController {
     private final SessionService sessionService;
-    private final FilmService filmService;
 
-    public ScheduleController(SessionService sessionService, FilmService filmService) {
+    public ScheduleController(SessionService sessionService) {
         this.sessionService = sessionService;
-        this.filmService = filmService;
     }
 
     @GetMapping("/schedule/sessionTimes")
@@ -76,7 +75,7 @@ public class ScheduleController {
             Model model
     ) {
         try {
-            var session = sessionService.getSessionById(sessionId);
+            SessionDto session = sessionService.getSessionById(sessionId);
             session.fillRowsAndCount();
             model.addAttribute("selectedSession", session);
             return "cinema/selectSession";

@@ -1,17 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
   <title>Выбор времени сеанса</title>
+</head>
+<body>
+
+<!-- Навигация -->
+<div th:replace="fragments/navigation :: navigation"></div>
+
+<main>
   <style>
-    body {
+    main {
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
+      padding: 40px 20px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fc;
+      min-height: 80vh;
     }
+
+    h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
     ul {
       list-style: none;
       padding: 0;
@@ -19,9 +32,11 @@
       width: 100%;
       max-width: 400px;
     }
+
     li {
       margin: 10px 0;
     }
+
     a.time-link {
       display: block;
       padding: 12px;
@@ -32,29 +47,36 @@
       text-align: center;
       transition: background .2s;
     }
+
     a.time-link:hover {
       background: #e0e0e0;
     }
+
     a.back-link {
-      margin-top: 20px;
+      margin-top: 30px;
       color: #555;
       text-decoration: none;
+      font-size: 0.9rem;
     }
+
     a.back-link:hover {
       text-decoration: underline;
     }
   </style>
-</head>
-<body>
-<h2>Выберите время начала сеанса</h2>
-<ul>
-  <li th:each="timeDto : ${sessionTimes}">
-    <a th:href="@{'/cinema/schedule/sessions_by_time'(startTime=${timeDto.urlTime})}"
-       th:text="${timeDto.displayTime}"
-       class="time-link">
-    </a>
-  </li>
-</ul>
-<a th:href="@{/cinema/list}" class="back-link">← Назад к списку фильмов</a>
+
+  <h2>Выберите время начала сеанса</h2>
+  <ul>
+    <li th:each="timeDto : ${sessionTimes}">
+      <a th:href="@{'/cinema/schedule/sessions_by_time'(startTime=${timeDto.urlTime})}"
+         th:text="${timeDto.displayTime}"
+         class="time-link"></a>
+    </li>
+  </ul>
+  <a th:href="@{/cinema/list}" class="back-link">← Назад к списку фильмов</a>
+</main>
+
+<!-- Футер -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
 </body>
 </html>

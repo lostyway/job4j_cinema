@@ -57,7 +57,7 @@ public class FilmController {
         SessionDto sessionDto = sessionService.getSessionById(sessionId);
         sessionDto.fillRowsAndCount();
 
-        model.addAttribute("mySession", sessionDto);
+        model.addAttribute("selectedSession", sessionDto);
         model.addAttribute("sessionId", sessionId);
         return "cinema/selectSession";
     }

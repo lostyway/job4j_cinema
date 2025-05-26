@@ -1,110 +1,51 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Выбор места</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #f4f7fc;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background: #fff;
-            padding: 30px 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h2 {
-            margin: 0 0 20px;
-            color: #333;
-        }
-        p {
-            margin: 5px 0;
-            color: #555;
-        }
-        form {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        label {
-            text-align: left;
-            font-weight: 500;
-            color: #444;
-        }
-        select {
-            padding: 8px 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-            background: #fafafa;
-        }
-        button {
-            padding: 10px;
-            background: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background .2s;
-        }
-        button:hover {
-            background: #218838;
-        }
-        a.back-link {
-            display: inline-block;
-            margin-top: 25px;
-            color: #555;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        a.back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
+<head th:replace="fragments/header :: header"></head>
 <body>
-<div class="container">
-    <h2>Сеанс:
-        <span th:text="${#temporals.format(selectedSession.startTime,'dd.MM.yyyy HH:mm')}"></span>
-    </h2>
-    <p>Зал: <span th:text="${selectedSession.hallName}"></span></p>
-    <p>Цена: <span th:text="${selectedSession.price}"></span> ₽</p>
+<div th:replace="fragments/navigation :: navigation"></div>
 
-    <form th:action="@{/buyTicket}" method="post">
-        <input type="hidden" name="sessionId" th:value="${selectedSession.id}"/>
+<main style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="container" style="
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    ">
+        <h2>Сеанс:
+            <span th:text="${#temporals.format(selectedSession.startTime,'dd.MM.yyyy HH:mm')}"></span>
+        </h2>
+        <p>Зал: <span th:text="${selectedSession.hallName}"></span></p>
+        <p>Цена: <span th:text="${selectedSession.price}"></span> ₽</p>
 
-        <div>
-            <label for="rowNumber">Ряд:</label>
-            <select id="rowNumber" name="rowNumber" required>
-                <option value="" disabled selected>Выберите ряд</option>
-                <option th:each="r : ${selectedSession.rowsList}" th:value="${r}" th:text="${r}"></option>
-            </select>
-        </div>
+        <form th:action="@{/buyTicket}" method="post" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+            <input type="hidden" name="sessionId" th:value="${selectedSession.id}"/>
 
-        <div>
-            <label for="placeNumber">Место:</label>
-            <select id="placeNumber" name="placeNumber" required>
-                <option value="" disabled selected>Выберите место</option>
-                <option th:each="p : ${selectedSession.placeList}" th:value="${p}" th:text="${p}"></option>
-            </select>
-        </div>
+            <div>
+                <label for="rowNumber" style="text-align: left; font-weight: 500; color: #444;">Ряд:</label>
+                <select id="rowNumber" name="rowNumber" required style="padding: 8px 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem; background: #fafafa;">
+                    <option value="" disabled selected>Выберите ряд</option>
+                    <option th:each="r : ${selectedSession.rowsList}" th:value="${r}" th:text="${r}"></option>
+                </select>
+            </div>
 
-        <button type="submit">Купить билет</button>
-    </form>
+            <div>
+                <label for="placeNumber" style="text-align: left; font-weight: 500; color: #444;">Место:</label>
+                <select id="placeNumber" name="placeNumber" required style="padding: 8px 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem; background: #fafafa;">
+                    <option value="" disabled selected>Выберите место</option>
+                    <option th:each="p : ${selectedSession.placeList}" th:value="${p}" th:text="${p}"></option>
+                </select>
+            </div>
 
-    <a th:href="@{/cinema/schedule/sessionTimes}" class="back-link">← Назад к выбору времени</a>
-</div>
+            <button type="submit" style="padding: 10px; background: #28a745; color: #fff; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background .2s;">Купить билет</button>
+        </form>
+
+        <a th:href="@{/cinema/schedule/sessionTimes}" class="back-link" style="display: inline-block; margin-top: 25px; color: #555; text-decoration: none; font-size: 0.9rem;">← Назад к выбору времени</a>
+    </div>
+</main>
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

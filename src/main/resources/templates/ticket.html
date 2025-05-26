@@ -1,27 +1,134 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваш билет</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            width: 30%;
+        }
+
+        tr:hover td {
+            background-color: #f8f9fa;
+        }
+
+        .ticket-status {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff3cd;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: #1a252f;
+        }
+    </style>
+</head>
 <body>
 <div th:replace="fragments/navigation :: navigation"></div>
-<h1 class="text-center">Ваш билет:</h1>
 
-<div class="container text-center mt-4" th:if="${ticket != null}">
-    <table>
-        <tr><th>ID сессии: </th><td th:text="${ticket.id}">1</td></tr>
-        <tr><th>Фильм: </th><td th:text="${ticket.filmName}">Название фильма</td></tr>
-        <tr><th>Зал: </th><td th:text="${ticket.hallName}">Зал</td></tr>
-        <tr><th>Ряд: </th><td th:text="${ticket.rowNumber}">1</td></tr>
-        <tr><th>Место: </th><td th:text="${ticket.placeNumber}">5</td></tr>
-        <tr><th>Время начала: </th><td th:text="${#temporals.format(ticket.startTime, 'dd.MM.yyyy HH:mm')}">01.01.2024 19:00</td></tr>
-        <tr><th>Время окончания: </th><td th:text="${#temporals.format(ticket.endTime, 'dd.MM.yyyy HH:mm')}">01.01.2024 21:00</td></tr>
-        <tr><th>Email пользователя: </th><td th:text="${ticket.email}">user@example.com</td></tr>
-        <tr><th>Цена: </th><td th:text="${ticket.price + ' ₽'}">350 ₽</td></tr>
-    </table>
+<div class="container">
+    <h1>Ваш билет</h1>
+
+    <div th:if="${ticket != null}">
+        <table>
+            <tr>
+                <th>Фильм</th>
+                <td th:text="${ticket.filmName}">Название фильма</td>
+            </tr>
+            <tr>
+                <th>Зал</th>
+                <td th:text="${ticket.hallName}">Зал</td>
+            </tr>
+            <tr>
+                <th>Место</th>
+                <td>
+                    <span th:text="${ticket.rowNumber}">1</span> ряд,
+                    <span th:text="${ticket.placeNumber}">5</span> место
+                </td>
+            </tr>
+            <tr>
+                <th>Время сеанса</th>
+                <td>
+                    <span th:text="${#temporals.format(ticket.startTime, 'dd.MM.yyyy HH:mm')}">01.01.2024 19:00</span> -
+                    <span th:text="${#temporals.format(ticket.endTime, 'HH:mm')}">21:00</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td th:text="${ticket.email}">user@example.com</td>
+            </tr>
+            <tr>
+                <th>Цена</th>
+                <td th:text="${ticket.price + ' ₽'}">350 ₽</td>
+            </tr>
+        </table>
+
+        <div style="text-align: center;">
+            <a th:href="@{/cinema/list}" class="back-link">К списку фильмов</a>
+        </div>
+    </div>
+
+    <div class="ticket-status" th:if="${ticket == null}">
+        <p>Данные билета устарели или не найдены.</p>
+        <p>Вы можете уточнить статус билета у сотрудника кинотеатра или в поддержке.</p>
+        <div style="text-align: center; margin-top: 20px;">
+            <a th:href="@{/cinema/list}" class="back-link">Вернуться к списку фильмов</a>
+        </div>
+    </div>
 </div>
 
-<div th:if="${ticket == null}">
-    <p> Данные билета устарели. Вы можете уточнить статус билета у сотрудника кинотеатра или в поддержке.</p>
-</div>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

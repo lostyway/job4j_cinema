@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface IFilmRepository {
     List<FilmDto> getAllFilms();
+
     Optional<FilmDto> getFilmById(int id);
 }

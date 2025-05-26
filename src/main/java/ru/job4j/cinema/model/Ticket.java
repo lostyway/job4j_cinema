@@ -27,9 +27,15 @@ public class Ticket {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Ticket ticket = (Ticket) o;
-        return id == ticket.id && sessionId == ticket.sessionId && rowNumber == ticket.rowNumber && placeNumber == ticket.placeNumber && userId == ticket.userId;
+        return id == ticket.id
+                && sessionId == ticket.sessionId
+                && rowNumber == ticket.rowNumber
+                && placeNumber == ticket.placeNumber
+                && userId == ticket.userId;
     }
 
     @Override

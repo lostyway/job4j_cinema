@@ -19,8 +19,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ScheduleControllerTest {
-    private static SessionService sessionService;
-    private static ScheduleController controller;
+    private SessionService sessionService;
+    private ScheduleController controller;
 
     @BeforeEach
     void setUp() {

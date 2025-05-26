@@ -22,9 +22,13 @@ public class TimeDto {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         TimeDto timeDto = (TimeDto) o;
-        return Objects.equals(dateTime, timeDto.dateTime) && Objects.equals(displayTime, timeDto.displayTime) && Objects.equals(urlTime, timeDto.urlTime);
+        return Objects.equals(dateTime, timeDto.dateTime)
+                && Objects.equals(displayTime, timeDto.displayTime)
+                && Objects.equals(urlTime, timeDto.urlTime);
     }
 
     @Override

@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 public class ErrorControllerTest {
 
     @Test
-    public void whenGetError404WithErrorParam_thenReturnErrorPageWithCustomMessage() throws Exception {
+    public void whenGetError404WithErrorParamThenReturnErrorPageWithCustomMessage() {
         String errorMessage = "Тестовая ошибка";
         Model model = mock(Model.class);
         ErrorController errorController = new ErrorController();
@@ -28,7 +28,7 @@ public class ErrorControllerTest {
     }
 
     @Test
-    public void whenGetError404WithOutErrorParam_thenReturnErrorPageWithDefaultMessage() throws Exception {
+    public void whenGetError404WithOutErrorParamThenReturnErrorPageWithDefaultMessage() {
         Model model = mock(Model.class);
         ErrorController errorController = new ErrorController();
         String viewName = errorController.error404(null, model);

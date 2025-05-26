@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.dto.SessionDto;
 import ru.job4j.cinema.dto.TimeDto;
 import ru.job4j.cinema.exceptions.NotFoundException;
-import ru.job4j.cinema.service.FilmService;
 import ru.job4j.cinema.service.SessionService;
 
 import java.time.LocalDateTime;

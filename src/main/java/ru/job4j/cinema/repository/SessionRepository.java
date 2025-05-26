@@ -1,6 +1,5 @@
 package ru.job4j.cinema.repository;
 
-import jakarta.websocket.Session;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -34,6 +33,7 @@ public class SessionRepository implements ISessionRepository {
         }
     }
 
+    @Override
     public Optional<SessionDto> getSessionById(int sessionId) {
         var sql = """
                 select s.id, s.film_id as filmId, h.name as hallName, s.start_time as startTime, s.end_time as endTime, s.price, h.row_count as rowCount, h.place_count as placeCount
@@ -45,6 +45,41 @@ public class SessionRepository implements ISessionRepository {
             return Optional.ofNullable(con.createQuery(sql)
                     .addParameter("sessionId", sessionId)
                     .executeAndFetchFirst(SessionDto.class));
+        }
+    }
+
+    @Override
+    public List<LocalDateTime> getSessionTimesOnNextWeek() {
+        var sql = """
+            SELECT DISTINCT start_time
+            FROM film_sessions
+            WHERE start_time >= :now AND start_time < :weekLater
+            ORDER BY start_time
+            """;
+        try (Connection con = sql2o.open()) {
+            var now = LocalDateTime.now();
+            var weekLater = now.plusDays(7);
+            return con.createQuery(sql)
+                    .addParameter("now", now)
+                    .addParameter("weekLater", weekLater)
+                    .executeAndFetch(LocalDateTime.class);
+        }
+    }
+
+    @Override
+    public List<SessionDto> getSessionsByStartTime(LocalDateTime startTime) {
+        var sql = """
+            SELECT s.id, s.film_id AS filmId, h.name AS hallName,
+                   s.start_time AS startTime, s.end_time AS endTime,
+                   s.price, h.row_count AS rowCount, h.place_count AS placeCount
+            FROM film_sessions s
+            JOIN halls h ON h.id = s.halls_id
+            WHERE s.start_time = :startTime
+            """;
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("startTime", startTime)
+                    .executeAndFetch(SessionDto.class);
         }
     }
 }

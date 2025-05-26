@@ -22,13 +22,13 @@ public class SessionDto {
     private int placeCount;
     private List<Integer> rowsList;
     private List<Integer> placeList;
-    private List<FilmDto> filmList;
+    private FilmDto filmDto;
 
     public SessionDto() {
     }
 
     @SuppressWarnings("checkstyle:ParameterNumber")
-    public SessionDto(int id, int filmId, String hallName, LocalDateTime startTime, LocalDateTime endTime, int price, int rowCount, int placeCount) {
+    public SessionDto(int id, int filmId, String hallName, LocalDateTime startTime, LocalDateTime endTime, int price, int rowCount, int placeCount, FilmDto filmDto) {
         this.id = id;
         this.filmId = filmId;
         this.hallName = hallName;
@@ -37,6 +37,7 @@ public class SessionDto {
         this.price = price;
         this.rowCount = rowCount;
         this.placeCount = placeCount;
+        this.filmDto = filmDto;
     }
 
     public void fillRowsAndCount() {

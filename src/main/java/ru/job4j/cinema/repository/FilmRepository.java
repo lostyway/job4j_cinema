@@ -5,6 +5,7 @@ import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
 import ru.job4j.cinema.dto.FilmDto;
+import ru.job4j.cinema.dto.SessionDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,21 +49,6 @@ public class FilmRepository implements IFilmRepository {
         try (Connection con = sql2o.open()) {
             Query query = con.createQuery(sql).addParameter("id", id);
             return Optional.ofNullable(query.executeAndFetchFirst(FilmDto.class));
-        }
-    }
-
-    public List<FilmDto> getAllFilmsInNextWeek() {
-        String sql = """
-                SELECT f.id, f.name, f.description, f.year,
-                       f.minimal_age as minimalAge,
-                       f.duration_in_minutes as durationInMinutes, g.name as genre, files.path as filePath
-                FROM films f
-                JOIN genres g on g.id = f.genre_id
-                JOIN files on files.id = f.file_id
-                """;
-        try (Connection con = sql2o.open()) {
-            Query query = con.createQuery(sql);
-            return query.executeAndFetch(FilmDto.class);
         }
     }
 }

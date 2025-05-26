@@ -1,40 +1,110 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Выбор места</title>
     <meta charset="UTF-8"/>
+    <title>Выбор места</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f4f7fc;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin: 0 0 20px;
+            color: #333;
+        }
+        p {
+            margin: 5px 0;
+            color: #555;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            text-align: left;
+            font-weight: 500;
+            color: #444;
+        }
+        select {
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            background: #fafafa;
+        }
+        button {
+            padding: 10px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        button:hover {
+            background: #218838;
+        }
+        a.back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div style="
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-  ">
-    <h2>Сеанс: <span th:text="${#temporals.format(mySession.startTime, 'dd.MM.yyyy HH:mm')}"></span></h2>
-    <p>Зал: <span th:text="${mySession.hallName}"></span></p>
-    <p>Цена: <span th:text="${mySession.price}"></span>₽</p>
+<div class="container">
+    <h2>Сеанс:
+        <span th:text="${#temporals.format(selectedSession.startTime,'dd.MM.yyyy HH:mm')}"></span>
+    </h2>
+    <p>Зал: <span th:text="${selectedSession.hallName}"></span></p>
+    <p>Цена: <span th:text="${selectedSession.price}"></span> ₽</p>
 
-    <form th:action="@{/buyTicket}" method="post" style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
-        <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+    <form th:action="@{/buyTicket}" method="post">
+        <input type="hidden" name="sessionId" th:value="${selectedSession.id}"/>
 
-        <label for="rowNumber">Выберите ряд:</label>
-        <select id="rowNumber" name="rowNumber" required>
-            <option value="" disabled selected>Выберите ряд</option>
-            <option th:each="row : ${mySession.rowsList}" th:value="${row}" th:text="${row}"></option>
-        </select>
+        <div>
+            <label for="rowNumber">Ряд:</label>
+            <select id="rowNumber" name="rowNumber" required>
+                <option value="" disabled selected>Выберите ряд</option>
+                <option th:each="r : ${selectedSession.rowsList}" th:value="${r}" th:text="${r}"></option>
+            </select>
+        </div>
 
-        <label for="placeNumber">Выберите место:</label>
-        <select id="placeNumber" name="placeNumber" required>
-            <option value="" disabled selected>Выберите место</option>
-            <option th:each="place : ${mySession.placeList}" th:value="${place}" th:text="${place}"></option>
-        </select>
+        <div>
+            <label for="placeNumber">Место:</label>
+            <select id="placeNumber" name="placeNumber" required>
+                <option value="" disabled selected>Выберите место</option>
+                <option th:each="p : ${selectedSession.placeList}" th:value="${p}" th:text="${p}"></option>
+            </select>
+        </div>
 
         <button type="submit">Купить билет</button>
     </form>
+
+    <a th:href="@{/cinema/schedule/sessionTimes}" class="back-link">← Назад к выбору времени</a>
 </div>
 </body>
-
 </html>

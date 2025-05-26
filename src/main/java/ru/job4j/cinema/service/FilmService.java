@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.job4j.cinema.dto.FilmDto;
 import ru.job4j.cinema.repository.FilmRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,13 +31,5 @@ public class FilmService implements IFilmService {
             throw new RuntimeException("No film found");
         }
         return result.get();
-    }
-
-    public List<FilmDto> getAllFilmsInNextWeek() {
-        List<FilmDto> result = filmRepository.getAllFilmsInNextWeek();
-        if (result.isEmpty()) {
-            throw new RuntimeException("No films in next week found");
-        }
-        return result;
     }
 }

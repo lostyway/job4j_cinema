@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Сеансы на <span th:text="${#temporals.format(time,'dd MMMM HH:mm')}">…</span></title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h2 {
+            margin-top: 40px;
+            color: #333;
+        }
+        .message {
+            margin: 20px;
+            color: #a00;
+            font-weight: bold;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: center;
+        }
+        thead {
+            background: #eef2f7;
+        }
+        tbody tr:nth-child(even) {
+            background: #f9fafc;
+        }
+        th {
+            font-weight: 600;
+            color: #555;
+        }
+        td {
+            color: #333;
+        }
+        a.action-link {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background .2s;
+        }
+        a.action-link:hover {
+            background: #0056b3;
+        }
+        .back-link {
+            margin: 30px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h2>Сеансы на <span th:text="${#temporals.format(time,'dd MMMM HH:mm')}"></span></h2>
+
+<div th:if="${message}" class="message">
+    <p th:text="${message}"></p>
+</div>
+
+<table th:if="${sessionsList}">
+    <thead>
+    <tr>
+        <th>Фильм</th>
+        <th>Зал</th>
+        <th>Начало</th>
+        <th>Конец</th>
+        <th>Цена</th>
+        <th>Купить</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sess : ${sessionsList}">
+        <td th:text="${sess.filmDto.name}">Название</td>
+        <td th:text="${sess.hallName}">Зал</td>
+        <td th:text="${#temporals.format(sess.startTime,'HH:mm')}">start</td>
+        <td th:text="${#temporals.format(sess.endTime,'HH:mm')}">end</td>
+        <td th:text="${sess.price} + ' ₽'">price</td>
+        <td>
+            <a th:href="@{'/cinema/selectSession'(sessionId=${sess.id})}" class="action-link">Купить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/cinema/schedule/sessionTimes}" class="back-link">← Выбрать другое время</a>
+</body>
+</html>

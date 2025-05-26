@@ -2,7 +2,9 @@ package ru.job4j.cinema.repository;
 
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 import ru.job4j.cinema.dto.TicketDto;
+import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.model.Ticket;
 
 import java.util.Optional;
@@ -17,19 +19,23 @@ public class TicketRepository implements ITickerRepository {
 
     @Override
     public Optional<TicketDto> buyTicket(Ticket ticket) {
-        var sql = """
-                insert into tickets(session_id, row_number, place_number, user_id)
-                values(:session_id, :row_number, :place_number, :user_id)
-                """;
-        try (var connection = sql2o.open()) {
-            var query = connection.createQuery(sql, true)
-                    .addParameter("session_id", ticket.getSessionId())
-                    .addParameter("row_number", ticket.getRowNumber())
-                    .addParameter("place_number", ticket.getPlaceNumber())
-                    .addParameter("user_id", ticket.getUserId());
-            int generateId = query.executeUpdate().getKey(Integer.class);
-            ticket.setId(generateId);
-            return getTicketDtoById(generateId);
+        try {
+            var sql = """
+                    insert into tickets(session_id, row_number, place_number, user_id)
+                    values(:session_id, :row_number, :place_number, :user_id)
+                    """;
+            try (var connection = sql2o.open()) {
+                var query = connection.createQuery(sql, true)
+                        .addParameter("session_id", ticket.getSessionId())
+                        .addParameter("row_number", ticket.getRowNumber())
+                        .addParameter("place_number", ticket.getPlaceNumber())
+                        .addParameter("user_id", ticket.getUserId());
+                int generateId = query.executeUpdate().getKey(Integer.class);
+                ticket.setId(generateId);
+                return getTicketDtoById(generateId);
+            }
+        } catch (Sql2oException e) {
+            throw new NotFoundException("Билет уже был куплен или вы не были зарегистрированы для покупки");
         }
     }
 

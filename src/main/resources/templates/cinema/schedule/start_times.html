@@ -4,10 +4,7 @@
   <title>Выбор времени сеанса</title>
 </head>
 <body>
-
-<!-- Навигация -->
 <div th:replace="fragments/navigation :: navigation"></div>
-
 <main>
   <style>
     main {
@@ -67,16 +64,13 @@
   <h2>Выберите время начала сеанса</h2>
   <ul>
     <li th:each="timeDto : ${sessionTimes}">
-      <a th:href="@{'/cinema/schedule/sessions_by_time'(startTime=${timeDto.urlTime})}"
+      <a th:href="@{'/cinema/schedule/sessionsByTime'(startTime=${timeDto.urlTime})}"
          th:text="${timeDto.displayTime}"
          class="time-link"></a>
     </li>
   </ul>
-  <a th:href="@{/cinema/list}" class="back-link">← Назад к списку фильмов</a>
+  <a th:href="@{/cinema/list}" class="back-link">← К списку фильмов</a>
 </main>
-
-<!-- Футер -->
 <footer th:replace="fragments/footer :: footer"></footer>
-
 </body>
 </html>

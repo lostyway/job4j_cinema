@@ -2,6 +2,7 @@ package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.dto.FilmDto;
+import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.repository.FilmRepository;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class FilmService implements IFilmService {
     public List<FilmDto> getAllFilms() {
         List<FilmDto> result = filmRepository.getAllFilms();
         if (result.isEmpty()) {
-            throw new RuntimeException("No films found");
+            throw new NotFoundException("Фильм не был найден");
         }
         return result;
     }
@@ -28,7 +29,7 @@ public class FilmService implements IFilmService {
     public FilmDto getFilmById(int id) {
         Optional<FilmDto> result = filmRepository.getFilmById(id);
         if (result.isEmpty()) {
-            throw new RuntimeException("No film found");
+            throw new NotFoundException("Фильм не был найден");
         }
         return result.get();
     }

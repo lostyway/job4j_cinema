@@ -31,17 +31,17 @@ public class AuthorizationFilter extends HttpFilter {
     }
 
     private boolean isAlwaysPermitted(String uri) {
-        return uri.startsWith("/users/register")
-                || uri.startsWith("/users/login")
+        return uri.endsWith("/users/register")
+                || uri.endsWith("/users/login")
                 || uri.startsWith("/js")
                 || uri.startsWith("/css")
                 || uri.startsWith("/files")
                 || uri.startsWith("/photo")
-                || uri.startsWith("/cinema/films")
-                || uri.startsWith("/cinema/list")
-                || uri.startsWith("/")
-                || uri.startsWith("/index")
-                || uri.startsWith("/cinema/schedule/session-times")
-                || uri.startsWith("/cinema/schedule/films-by-time");
+                || uri.endsWith("/cinema/list")
+                || uri.endsWith("/")
+                || uri.endsWith("/index")
+                || uri.startsWith("/cinema/schedule/sessionTimes")
+                || uri.startsWith("/cinema/schedule/sessions_by_time")
+                || uri.startsWith("/cinema/one/");
     }
 }

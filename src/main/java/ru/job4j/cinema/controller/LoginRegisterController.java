@@ -2,12 +2,15 @@ package ru.job4j.cinema.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.UserService;
 
+@Slf4j
 @Controller
 @RequestMapping("/users")
 public class LoginRegisterController {
@@ -34,25 +37,33 @@ public class LoginRegisterController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model, HttpServletRequest request) {
+    public String loginByEmailAndPassword(@ModelAttribute User user, Model model, HttpServletRequest request) {
         try {
             User userToLogin = userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword());
             request.getSession().setAttribute("user", userToLogin);
             request.getSession().setAttribute("userId", userToLogin.getId());
             return "redirect:/index";
-        } catch (RuntimeException e) {
-            model.addAttribute("error", "Почта или пароль введены неверно");
+        } catch (NotFoundException e) {
+            model.addAttribute("error", e.getMessage());
             return "users/login";
+        }  catch (Exception e) {
+            log.error("Необработанное исключение в методе loginByEmailAndPassword", e);
+            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
+            return "errors/404";
         }
     }
 
     @PostMapping("/register")
-    public String login(@ModelAttribute User user, Model model) {
+    public String loginByEmailAndPassword(@ModelAttribute User user, Model model) {
         try {
             userService.save(user);
             return "redirect:/users/login";
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+            return "errors/404";
         } catch (Exception e) {
-            model.addAttribute("error", String.format("Пользователь с почтой %s уже существует", user.getEmail()));
+            log.error("Необработанное исключение в методе register", e);
+            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
             return "errors/404";
         }
     }

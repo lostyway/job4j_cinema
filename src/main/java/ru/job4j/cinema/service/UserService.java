@@ -1,6 +1,7 @@
 package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.repository.UserRepository;
 
@@ -15,12 +16,12 @@ public class UserService implements IUserService {
     @Override
     public User save(User user) {
         return userRepository.save(user)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(String.format("Пользователь с почтой %s уже существует", user.getEmail())));
     }
 
     @Override
     public User findUserByEmailAndPassword(String email, String password) {
         return userRepository.findUserByEmailAndPassword(email, password)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("Почта или пароль введены неверно"));
     }
 }

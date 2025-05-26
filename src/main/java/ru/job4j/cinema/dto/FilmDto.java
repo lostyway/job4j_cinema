@@ -10,7 +10,7 @@ public class FilmDto {
     private int id;
     private String name;
     private String description;
-    private int year;
+    private int releaseYear;
     private int minimalAge;
     private int durationInMinutes;
     private String genre;
@@ -23,7 +23,7 @@ public class FilmDto {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.year = year;
+        this.releaseYear = year;
         this.minimalAge = minimalAge;
         this.durationInMinutes = durationInMinutes;
         this.genre = genre;

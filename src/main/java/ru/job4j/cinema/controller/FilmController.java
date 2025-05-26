@@ -1,5 +1,6 @@
 package ru.job4j.cinema.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.dto.FilmDto;
 import ru.job4j.cinema.dto.SessionDto;
+import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.service.FilmService;
 import ru.job4j.cinema.service.SessionService;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/cinema")
 public class FilmController {
@@ -29,11 +32,15 @@ public class FilmController {
         try {
             List<FilmDto> films = filmService.getAllFilms();
             model.addAttribute("films", films);
-        } catch (RuntimeException e) {
+            return "cinema/list";
+        } catch (NotFoundException e) {
             model.addAttribute("error", e.getMessage());
             return "errors/404";
+        } catch (Exception e) {
+            log.error("Необработанное исключение в методе films", e);
+            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
+            return "errors/404";
         }
-        return "cinema/list";
     }
 
     @GetMapping("/one/{id}")
@@ -45,20 +52,33 @@ public class FilmController {
 
             model.addAttribute("film", filmDto);
             model.addAttribute("mySession", sessions);
-        } catch (RuntimeException e) {
-            model.addAttribute("error", "Фильм не был найден");
+            return "cinema/one";
+        } catch (NotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "errors/404";
+        } catch (Exception e) {
+            log.error("Необработанное исключение в методе filmsById", e);
+            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
             return "errors/404";
         }
-        return "cinema/one";
     }
 
     @GetMapping("/sessions")
     public String sessionsById(@RequestParam("sessionId") int sessionId, Model model) {
-        SessionDto sessionDto = sessionService.getSessionById(sessionId);
-        sessionDto.fillRowsAndCount();
+        try {
+            SessionDto sessionDto = sessionService.getSessionById(sessionId);
+            sessionDto.fillRowsAndCount();
 
-        model.addAttribute("selectedSession", sessionDto);
-        model.addAttribute("sessionId", sessionId);
-        return "cinema/selectSession";
+            model.addAttribute("selectedSession", sessionDto);
+            model.addAttribute("sessionId", sessionId);
+            return "cinema/selectSession";
+        } catch (NotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "errors/404";
+        } catch (Exception e) {
+            log.error("Необработанное исключение в методе sessionsById", e);
+            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
+            return "errors/404";
+        }
     }
 }

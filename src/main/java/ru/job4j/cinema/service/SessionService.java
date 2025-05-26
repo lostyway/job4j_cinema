@@ -1,7 +1,9 @@
 package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.cinema.dto.FilmDto;
 import ru.job4j.cinema.dto.SessionDto;
+import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.repository.SessionRepository;
 
 import java.time.LocalDateTime;
@@ -21,7 +23,7 @@ public class SessionService implements ISessionService {
     public List<SessionDto> getSessionsByFilmId(int filmId) {
         var sessions = sessionRepository.getSessionsByFilmId(filmId);
         if (sessions.isEmpty()) {
-            throw new RuntimeException("There is no session with film id " + filmId);
+            throw new NotFoundException("Не было найдено сеансов для фильма: " + filmId);
         }
         return sessions;
     }
@@ -30,22 +32,30 @@ public class SessionService implements ISessionService {
     public SessionDto getSessionById(int sessionId) {
         var sessionOpt = sessionRepository.getSessionById(sessionId);
         return sessionOpt.orElseThrow(() ->
-                new RuntimeException("There is no session with id " + sessionId)
+                new NotFoundException("Не было найдено сессий с id: " + sessionId)
         );
     }
 
     @Override
     public List<SessionDto> getSessionsByStartTime(LocalDateTime startTime) {
-        var sessions = sessionRepository.getSessionsByStartTime(startTime);
+        List<SessionDto> sessions = sessionRepository.getSessionsByStartTime(startTime);
         sessions.forEach(sess -> {
-            var film = filmService.getFilmById(sess.getFilmId());
+            FilmDto film = filmService.getFilmById(sess.getFilmId());
             sess.setFilmDto(film);
         });
+
+        if (sessions.isEmpty()) {
+            throw new NotFoundException("Не было найдено сессий с временем начала: " + startTime);
+        }
         return sessions;
     }
 
     @Override
     public List<LocalDateTime> getUniqueSessionTimesOnNextWeek() {
-        return sessionRepository.getSessionTimesOnNextWeek();
+        List<LocalDateTime> sessionOnWeek = sessionRepository.getSessionTimesOnNextWeek();
+        if (sessionOnWeek.isEmpty()) {
+            throw new NotFoundException("Нет сессий с фильмами на этой неделе");
+        }
+        return sessionOnWeek;
     }
 }

@@ -15,5 +15,4 @@
     <include file="scripts/008_ddm_insert_into_films.sql" relativeToChangelogFile="true"/>
     <include file="scripts/009_ddm_insert_into_halls.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010_ddm_insert_into_film_session.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/011_ddm_insert_into_users.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

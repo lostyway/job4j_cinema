@@ -1,4 +1,4 @@
-insert into films (name, description, year, genre_id, minimal_age, duration_in_minutes, file_id)
+insert into films (name, description, "year", genre_id, minimal_age, duration_in_minutes, file_id)
 values ('The Silent Dawn', 'A gripping tale of survival in a post-apocalyptic world.', 2022, 1, 16, 120, 1),
        ('Laughing Matters', 'A hilarious journey of friends trying to find their way.', 2020, 2, 12, 90, 2),
        ('Shadows of the Past', 'A dramatic story of love, loss, and redemption.', 2021, 3, 18, 110, 3),

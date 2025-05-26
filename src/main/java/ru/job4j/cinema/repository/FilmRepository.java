@@ -5,9 +5,7 @@ import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
 import ru.job4j.cinema.dto.FilmDto;
-import ru.job4j.cinema.dto.SessionDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +20,7 @@ public class FilmRepository implements IFilmRepository {
     @Override
     public List<FilmDto> getAllFilms() {
         String sql = """
-                SELECT f.id, f.name, f.description, f.year,
+                SELECT f.id, f.name, f.description, f."year" as releaseYear,
                        f.minimal_age as minimalAge,
                        f.duration_in_minutes as durationInMinutes, g.name as genre, files.path as filePath
                 FROM films f
@@ -38,7 +36,7 @@ public class FilmRepository implements IFilmRepository {
     @Override
     public Optional<FilmDto> getFilmById(int id) {
         String sql = """
-                SELECT f.id, f.name, f.description, f.year,
+                SELECT f.id, f.name, f.description, f."year" as releaseYear,
                        f.minimal_age as minimalAge,
                        f.duration_in_minutes as durationInMinutes, g.name as genre, files.path as filePath
                 FROM films f

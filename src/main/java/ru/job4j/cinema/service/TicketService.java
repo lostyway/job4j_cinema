@@ -2,6 +2,7 @@ package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.dto.TicketDto;
+import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.repository.TicketRepository;
 
@@ -16,12 +17,6 @@ public class TicketService implements ITicketService {
     @Override
     public TicketDto buyTicket(Ticket ticket) {
         return ticketRepository.buyTicket(ticket)
-                .orElseThrow(() -> new RuntimeException("Ticket is busy"));
-    }
-
-    @Override
-    public TicketDto getTicketDtoById(int id) {
-        return ticketRepository.getTicketDtoById(id)
-                .orElseThrow(() -> new RuntimeException("No ticket found"));
+                .orElseThrow(() -> new NotFoundException("Билет уже был куплен или вы не были зарегистрированы для покупки"));
     }
 }

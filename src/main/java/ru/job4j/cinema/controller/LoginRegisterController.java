@@ -54,11 +54,11 @@ public class LoginRegisterController {
     }
 
     @PostMapping("/register")
-    public String loginByEmailAndPassword(@ModelAttribute User user, Model model) {
+    public String registerNewUser(@ModelAttribute User user, Model model) {
         try {
             userService.save(user);
             return "redirect:/users/login";
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "errors/404";
         } catch (Exception e) {

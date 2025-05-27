@@ -16,7 +16,7 @@ public class UserService implements IUserService {
     @Override
     public User save(User user) {
         return userRepository.save(user)
-                .orElseThrow(() -> new RuntimeException(String.format("Пользователь с почтой %s уже существует", user.getEmail())));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Пользователь с почтой %s уже существует", user.getEmail())));
     }
 
     @Override

@@ -35,6 +35,7 @@ public class FilmControllerTest {
 
     @Nested
     class WhenTestMethodFilms {
+
         @Test
         public void whenFilmsSuccessThenReturnCinemaFilmsAndGoodView() {
             List<FilmDto> filmDto = List.of(new FilmDto());
@@ -89,6 +90,7 @@ public class FilmControllerTest {
 
     @Nested
     class WhenTestMethodFilmsById {
+
         @BeforeEach
         public void setUp() {
             filmDto = new FilmDto();

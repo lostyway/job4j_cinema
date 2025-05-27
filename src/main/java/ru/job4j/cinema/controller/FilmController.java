@@ -44,7 +44,7 @@ public class FilmController {
     }
 
     @GetMapping("/one/{id}")
-    public String filmsById(@PathVariable("id") int id, Model model) {
+    public String  filmsById(@PathVariable("id") int id, Model model) {
         try {
             FilmDto filmDto = filmService.getFilmById(id);
             List<SessionDto> sessions = sessionService.getSessionsByFilmId(id);

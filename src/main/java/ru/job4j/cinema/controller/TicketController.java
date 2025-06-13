@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.job4j.cinema.dto.TicketDto;
-import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.service.TicketService;
 
@@ -27,25 +26,16 @@ public class TicketController {
                             @RequestParam int rowNumber,
                             @RequestParam int placeNumber,
                             RedirectAttributes redirectAttributes, HttpSession session, Model model) {
-        try {
-            Integer userId = (Integer) session.getAttribute("userId");
-            Ticket ticket = new Ticket();
-            ticket.setUserId(userId);
-            ticket.setSessionId(sessionId);
-            ticket.setRowNumber(rowNumber);
-            ticket.setPlaceNumber(placeNumber);
+        Integer userId = (Integer) session.getAttribute("userId");
+        Ticket ticket = new Ticket();
+        ticket.setUserId(userId);
+        ticket.setSessionId(sessionId);
+        ticket.setRowNumber(rowNumber);
+        ticket.setPlaceNumber(placeNumber);
 
-            TicketDto ticketToBuy = ticketService.buyTicket(ticket);
-            redirectAttributes.addFlashAttribute("ticket", ticketToBuy);
-            return "redirect:/ticket";
-        } catch (NotFoundException e) {
-            model.addAttribute("error", e.getMessage());
-            return "errors/404";
-        } catch (Exception e) {
-            log.error("Необработанное исключение в методе buyTicket", e);
-            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
-            return "errors/404";
-        }
+        TicketDto ticketToBuy = ticketService.buyTicket(ticket);
+        redirectAttributes.addFlashAttribute("ticket", ticketToBuy);
+        return "redirect:/ticket";
     }
 
     @GetMapping("/ticket")

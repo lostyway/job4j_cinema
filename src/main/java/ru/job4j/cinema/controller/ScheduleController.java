@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.dto.SessionDto;
 import ru.job4j.cinema.dto.TimeDto;
-import ru.job4j.cinema.exceptions.NotFoundException;
 import ru.job4j.cinema.service.SessionService;
 
 import java.time.LocalDateTime;
@@ -27,24 +26,15 @@ public class ScheduleController {
 
     @GetMapping("/schedule/sessionTimes")
     public String sessionTimes(Model model) {
-        try {
-            var times = sessionService.getUniqueSessionTimesOnNextWeek();
-            List<TimeDto> dtoList = times.stream()
-                    .map(time -> new TimeDto(
-                            time,
-                            time.format(DateTimeFormatter.ofPattern("dd MMMM HH:mm"))
-                    ))
-                    .toList();
-            model.addAttribute("sessionTimes", dtoList);
-            return "cinema/schedule/start_times";
-        } catch (NotFoundException e) {
-            model.addAttribute("error", e.getMessage());
-            return "errors/404";
-        } catch (Exception e) {
-            log.error("Необработанное исключение в методе sessionTimes", e);
-            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
-            return "errors/404";
-        }
+        var times = sessionService.getUniqueSessionTimesOnNextWeek();
+        List<TimeDto> dtoList = times.stream()
+                .map(time -> new TimeDto(
+                        time,
+                        time.format(DateTimeFormatter.ofPattern("dd MMMM HH:mm"))
+                ))
+                .toList();
+        model.addAttribute("sessionTimes", dtoList);
+        return "cinema/schedule/start_times";
     }
 
     @GetMapping("/schedule/sessionsByTime")
@@ -52,20 +42,11 @@ public class ScheduleController {
             @RequestParam("startTime") String startTimeRaw,
             Model model
     ) {
-        try {
-            var startTime = LocalDateTime.parse(startTimeRaw);
-            var sessions = sessionService.getSessionsByStartTime(startTime);
-            model.addAttribute("sessionsList", sessions);
-            model.addAttribute("time", startTime);
-            return "cinema/schedule/sessions_by_time";
-        } catch (NotFoundException e) {
-            model.addAttribute("error", e.getMessage());
-            return "errors/404";
-        } catch (Exception e) {
-            log.error("Необработанное исключение в методе sessionsByTime", e);
-            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
-            return "errors/404";
-        }
+        var startTime = LocalDateTime.parse(startTimeRaw);
+        var sessions = sessionService.getSessionsByStartTime(startTime);
+        model.addAttribute("sessionsList", sessions);
+        model.addAttribute("time", startTime);
+        return "cinema/schedule/sessions_by_time";
     }
 
     @GetMapping("/selectSession")
@@ -73,18 +54,9 @@ public class ScheduleController {
             @RequestParam("sessionId") int sessionId,
             Model model
     ) {
-        try {
-            SessionDto session = sessionService.getSessionById(sessionId);
-            session.fillRowsAndCount();
-            model.addAttribute("selectedSession", session);
-            return "cinema/selectSession";
-        } catch (NotFoundException e) {
-            model.addAttribute("error", e.getMessage());
-            return "errors/404";
-        } catch (Exception e) {
-            log.error("Необработанное исключение в методе selectSession", e);
-            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
-            return "errors/404";
-        }
+        SessionDto session = sessionService.getSessionById(sessionId);
+        session.fillRowsAndCount();
+        model.addAttribute("selectedSession", session);
+        return "cinema/selectSession";
     }
 }

@@ -199,13 +199,6 @@ public class SessionRepositoryTest {
     }
 
     @Test
-    public void whenGetSessionTimesOnNextWeekIsSuccessfulThenReturnSessions() {
-        List<LocalDateTime> sessions = sessionRepository.getSessionTimesOnNextWeek();
-
-        assertThat(sessions).isNotEmpty();
-    }
-
-    @Test
     public void whenGetSessionTimesOnNextWeekIsSuccessfulThenReturnListOfSessions() {
         List<SessionDto> sessions = sessionRepository.getSessionsByStartTime(MAIN_LOCAL_TIME_START_FOR_TEST);
 

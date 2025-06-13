@@ -5,8 +5,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ru.job4j.cinema.exceptions.NotFoundException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.UserService;
 
@@ -38,33 +40,17 @@ public class LoginRegisterController {
 
     @PostMapping("/login")
     public String loginByEmailAndPassword(@ModelAttribute User user, Model model, HttpServletRequest request) {
-        try {
-            User userToLogin = userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword());
-            request.getSession().setAttribute("user", userToLogin);
-            request.getSession().setAttribute("userId", userToLogin.getId());
-            return "redirect:/index";
-        } catch (NotFoundException e) {
-            model.addAttribute("error", e.getMessage());
-            return "users/login";
-        }  catch (Exception e) {
-            log.error("Необработанное исключение в методе loginByEmailAndPassword", e);
-            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
-            return "errors/404";
-        }
+
+        User userToLogin = userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword());
+        request.getSession().setAttribute("user", userToLogin);
+        request.getSession().setAttribute("userId", userToLogin.getId());
+        return "redirect:/index";
     }
 
     @PostMapping("/register")
     public String registerNewUser(@ModelAttribute User user, Model model) {
-        try {
-            userService.save(user);
-            return "redirect:/users/login";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "errors/404";
-        } catch (Exception e) {
-            log.error("Необработанное исключение в методе register", e);
-            model.addAttribute("error", "Произошла непредвиденная ошибка. Попробуйте позже");
-            return "errors/404";
-        }
+
+        userService.save(user);
+        return "redirect:/users/login";
     }
 }
